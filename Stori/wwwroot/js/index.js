@@ -25,8 +25,11 @@
                            navigator.msGetUserMedia);
 
     navigator.getMedia(
-      {
-        video: true,
+    {
+        video: {
+            facingMode: { exact: "environment" }
+        },
+        // true,
         audio: false
       },
       function(stream) {
@@ -58,7 +61,7 @@
         video.setAttribute('height', $(window).height());
         canvas.setAttribute('width', width);
         canvas.setAttribute('height', $(window).height());
-        $('.camera').first().css('left', - width / 3);
+        // $('.camera').first().css('left', - width / 3);
         streaming = true;
       }
     }, false);
@@ -68,9 +71,21 @@
       ev.preventDefault();
     }, false);
     
-  }
+    }
 
-  function takepicture() {
+    function getTags(json) {
+        var tags = '';
+        for (var i = 0; i < json["tags"].length; i++) {
+            tags += json["tags"][i].displayName + '{ ';
+            for (var j = 0; j < json["tags"][i]["actions"].length; j++) {
+                tags += json["tags"][i]["actions"][j].actionType + ', '
+            }
+            tags += '}, '
+        }
+        return tags;
+    }
+
+    function takepicture() {
     var context = canvas.getContext('2d');
     if (width && height) {
       canvas.width = $(window).width();
@@ -78,25 +93,33 @@
       context.drawImage(video, - width / 3, 0, width, height);
     
       var data = canvas.toDataURL("image/jpeg");
-      photo.setAttribute('src', data);
+      // photo.setAttribute('src', data);
       data = data.substr(data.indexOf(',')+1)
-      
-      var request = new XMLHttpRequest();
-      request.open('POST', path, true);
+    }
 
-      request.onload = function () {
+    var request = new XMLHttpRequest();
+    request.open('POST', path, true);
+
+    request.onload = function () {
         if (request.status >= 200 && request.status < 300) {
-          console.log(JSON.parse(request.responseText));
+            var json = JSON.parse(request.responseText);
+            console.log(json);
+            document.getElementById('json').innerHTML = getTags(json);
+            $('.output').first().css('display', 'block');
+            $('body').css('overflow', 'scroll');
         }
         else {
-          console.log(request.responseText);
+            console.log(request.responseText);
         }
-      }
-      
-      var formData = new FormData();
-      formData.append('imageBase64', data); // the first parameter sets the name and is required
-      request.send(formData);
     }
+
+    var formData = new FormData();
+    if (data) {
+        formData.append('imageBase64', data); // the first parameter sets the name and is required
+    } else {
+        formData.append('knowledgeRequest', "{'imageInfo': {'url': 'https://ae01.alicdn.com/kf/HTB10dQILVXXXXX3XFXXq6xXFXXXx/Creative-Resin-Planter-Flowerpot-Kawaii-Corgi-Garden-Succulent-Plants-Jardin-Bonsai-Desk-font-b-Flower-b.jpg'}}");
+    }
+    request.send(formData);
   }
 
   window.addEventListener('load', startup, false);
