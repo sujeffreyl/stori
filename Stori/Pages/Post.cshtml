@@ -1,0 +1,13 @@
+﻿@page "new"
+@model Stori.Pages.PostModel
+@{
+    ViewData["Title"] = "Post";
+}
+
+<h2>New Storie</h2>
+
+<form asp-page-handler="Add" method="post">
+    <div>Title: </div><input id="title" class="card" type="text" name="title" /> <br />
+    <div>Text: </div><input id="postText" class="card" type="text" name="postText" /> <br />
+    <input type="submit" value="Submit">
+</form>

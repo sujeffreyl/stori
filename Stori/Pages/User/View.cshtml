@@ -1,0 +1,14 @@
+﻿@page "{username}"
+@model Stori.Pages.User.ViewModel
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>@RouteData.Values["username"]'s Posts</h2>
+
+@foreach (Stori.ObjectModel.Post post in Model.Posts)
+{
+    <h3>@post.Title</h3>
+    <p>@post.CreateDate.ToString("MM/dd/yy")</p>
+    <p>@post.Text</p>
+}
