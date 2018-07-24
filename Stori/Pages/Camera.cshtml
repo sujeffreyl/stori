@@ -1,0 +1,19 @@
+﻿@page
+@model CameraModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<link rel="stylesheet" href="~/css/camera.css" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/camera.js"></script>
+
+<div class="output">
+    <img id="photo" />
+    <div id="json"></div>
+</div>
+<div id="shutter"></div>
+<div class="camera">
+    <video id="video" webkit-playsinline="true" playsinline="true" autoplay="">Video stream not available.</video>
+</div>
+<canvas id="canvas"></canvas>

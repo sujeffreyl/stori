@@ -1,0 +1,25 @@
+﻿@page
+@model IndexModel
+@using Stori.Views.Shared
+@{
+    ViewData["Title"] = "Search";
+}
+
+<link rel="stylesheet" href="~/css/search.css" />
+<link rel="stylesheet" href="~/css/carousel.css" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<input id="searchbox" class="card" type="text" placeholder="Search for posts">
+<div id="entity" class="card">
+    <div class="ent_title">Bing</div>
+    <div class="ent_content">
+        Nutella is a brand of sweetened hazelnut cocoa spread manufactured by the Italian company Ferrero that was first introduced in 1965, although its first iteration dates to 1963.
+    </div>
+</div>
+
+<div id="results">
+    @Html.Partial("Carousel", new CarouselModel())
+
+    @* mock data, remove later *@
+    @Html.Partial("Carousel", new CarouselModel())
+</div>
