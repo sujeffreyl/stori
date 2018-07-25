@@ -86,6 +86,19 @@ namespace Stori.DataAccessLayer
             }
         }
 
+        public Post GetPostById(string id)
+        {
+            try
+            {
+                var collection = GetPostsCollection();
+                return collection.Find(x => x._id == ObjectId.Parse(id)).FirstOrDefault();
+            }
+            catch (MongoConnectionException)
+            {
+                return new Post();
+            }
+        }
+
         // Creates a Post and inserts it into the collection in MongoDB.
         public void CreatePost(Post post)
         {

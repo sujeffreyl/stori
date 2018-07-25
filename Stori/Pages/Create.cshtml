@@ -1,0 +1,17 @@
+﻿@page "new"
+@model Stori.Pages.CreateModel
+@{
+    ViewData["Title"] = "Post";
+}
+
+<h2>New Storie</h2>
+
+<form asp-page-handler="Add" method="post" enctype="multipart/form-data">
+    <div>Username: </div><input id="usernameTemp" class="card" type="text" name="usernameTemp" /> <br />
+    <div>Title: </div><input id="title" class="card" type="text" name="title" /> <br />
+    <div>Text: </div><input id="postText" class="card" type="text" name="postText" /> <br />
+    <div>Tags (comma-separated: </div><input id="tags" class="card" type="text" name="tags" /> <br />
+    <div for="file">Filename:</div>
+    <input type="file" name="file" id="file" />
+    <input type="submit" value="Submit">
+</form>

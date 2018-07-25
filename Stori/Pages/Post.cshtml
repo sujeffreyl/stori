@@ -1,17 +1,53 @@
-﻿@page "new"
-@model Stori.Pages.PostModel
+﻿@page "{id}"
+@model PostModel
+@using Stori.Views.Shared
+@using Stori.ObjectModel;
 @{
-    ViewData["Title"] = "Post";
+    ViewData["Title"] = "Profile";
 }
 
-<h2>New Storie</h2>
+<link rel="stylesheet" href="~/css/post.css" />
+<link rel="stylesheet" href="~/css/carousel.css" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
 
-<form asp-page-handler="Add" method="post" enctype="multipart/form-data">
-    <div>Username: </div><input id="usernameTemp" class="card" type="text" name="usernameTemp" /> <br />
-    <div>Title: </div><input id="title" class="card" type="text" name="title" /> <br />
-    <div>Text: </div><input id="postText" class="card" type="text" name="postText" /> <br />
-    <div>Tags (comma-separated: </div><input id="tags" class="card" type="text" name="tags" /> <br />
-    <div for="file">Filename:</div>
-    <input type="file" name="file" id="file" />
-    <input type="submit" value="Submit">
-</form>
+<div id="banner" class="image"><img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=07df4ad552d3627b7cbc7836321d9a03&auto=format&fit=crop&w=1350&q=80" /></div>
+<a id="user_info" class="card" href="@("/user/view/" + Model.Post.Author.UserName)">
+    <div class="icon image"><img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3ccc1801fd91dc9cf869fa6a09360c09&auto=format&fit=crop&w=1000&q=80"></div>
+    <div class="name">Nulla Ultricies</div>
+    <div class="description">Loves travelling and good food</div>
+</a>
+
+<div id="post_content">
+    <div class="card">
+        <div id="post_header">
+            <span id="title">@Model.Post.Title</span>
+            <span id="date">@Model.Post.CreateDate</span>
+        </div>
+
+        @if (Model.Post.CaptionedImages != null)
+        {
+            @foreach (var captionedImage in Model.Post.CaptionedImages)
+            {
+                <div class="image @(captionedImage.Width > captionedImage.Height ? "horiz" : "")">
+                    <img src="/Images/@captionedImage._id" />
+                </div>
+                <div class="caption">
+                    @captionedImage.Caption
+                </div>
+            }
+        }
+    </div>
+    <div class="card">
+        <div class="section_header">Tags</div>
+        @if (Model.Post.Tags != null)
+        {
+            @foreach (var tag in Model.Post.Tags)
+            {
+                if (!string.IsNullOrEmpty(tag))
+                {
+                    <a class="tag" href="@("/search?q=" + tag)">@tag</a>
+                }
+            }
+        }
+    </div>
+</div>
