@@ -10,14 +10,18 @@
   var video = null;
   var canvas = null;
   var startbutton = null;
+  var closebutton = null;
   var photo = null;
+  var tags = null;
 
   function startup() {
     video = document.getElementById('video');
     canvas = document.getElementById('canvas');
     camera = document.getElementById('camera');
     photo = document.getElementById('photo');
+    tags = document.getElementById('tags');
     startbutton = document.getElementById('shutter');
+    closebutton = document.getElementById('close');
 
     navigator.getMedia = ( navigator.getUserMedia ||
                            navigator.webkitGetUserMedia ||
@@ -70,30 +74,46 @@
       takepicture();
       ev.preventDefault();
     }, false);
+
+    closebutton.addEventListener('click', function(ev){
+      $('#photo').removeAttr('src');
+      $('#tags').css('display', 'none');
+      $('.output').first().css('display', 'none');
+      ev.preventDefault();
+    }, false);
     
     }
 
     function getTags(json) {
-        var tags = '';
-        for (var i = 0; i < json["tags"].length; i++) {
-            tags += json["tags"][i].displayName + '{ ';
+        var tagString = '';
+        $('.image', '#tags').remove(); 
+        for (var i = 1; i < Math.min(json["tags"].length, 3); i++) {
+            tagString += json["tags"][i].displayName + '{ ';
+            var displayName = json["tags"][i].displayName;
+            console.log(displayName)
             for (var j = 0; j < json["tags"][i]["actions"].length; j++) {
-                tags += json["tags"][i]["actions"][j].actionType + ', '
+                tagString += json["tags"][i]["actions"][j].actionType + ', '
             }
-            tags += '}, '
+            tagString += '}, ';
+
+            if (!displayName.startsWith('##')) {
+                var img = "https://www.bing.com/th?q=" + displayName + "&dc=1&w=100&h=100&c=1&dpr=2&mkt=en-US&adlt=moderate&t=1";
+                $('#tags').append("<div class='image'><img src='" + img + "'></div>");
+            }
         }
-        return tags;
+        return tagString;
     }
 
-    function takepicture() {
+  function takepicture() {
     var context = canvas.getContext('2d');
     if (width && height) {
       canvas.width = $(window).width();
       canvas.height = height;
-      context.drawImage(video, - width / 3, 0, width, height);
+      context.drawImage(video, 0, 0, width, height);
     
       var data = canvas.toDataURL("image/jpeg");
-      // photo.setAttribute('src', data);
+      photo.setAttribute('src', data);
+      $('.output').first().css('display', 'block');
       data = data.substr(data.indexOf(',')+1)
     }
 
@@ -104,9 +124,9 @@
         if (request.status >= 200 && request.status < 300) {
             var json = JSON.parse(request.responseText);
             console.log(json);
-            document.getElementById('json').innerHTML = getTags(json);
-            $('.output').first().css('display', 'block');
-            $('body').css('overflow', 'scroll');
+            // document.getElementById('json').innerHTML = getTags(json);
+            getTags(json);
+            $('#tags').css('display', 'block');
         }
         else {
             console.log(request.responseText);
