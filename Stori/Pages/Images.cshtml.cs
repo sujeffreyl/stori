@@ -14,8 +14,9 @@ namespace Stori.Pages
         public async Task<ActionResult> OnGetAsync()
         {
             string imageId = RouteData.Values["imageId"].ToString();
-            ImageWithMetadata imageWithMetadata = await ImageWithMetadata.LookupById(imageId);
-            
+            ImageWithMetadata imageWithMetadata = await DataAccessLayer.Dal.LookupById<ImageWithMetadata>(ImageWithMetadata.GetMongoDbCollectionName(), imageId);
+
+
             if (imageWithMetadata == null)
             {
                 return RedirectToPage("./Error");
@@ -23,38 +24,24 @@ namespace Stori.Pages
 
             Image image = await DataAccessLayer.Dal.LookupById<Image>("images", imageWithMetadata.ImageId);
 
-            //Response.Body = new MemoryStream(image.Content);
-            //Response.Body.Close();
-            //Response.ContentLength = image.Content.Length;
-            //Response.Headers.TryAdd("content-disposition", "attachment");    // TODO: FIX ME
-
-            //switch (imageWithMetadata.Filetype)
-            //{
-            //    case ImageFormat.GIF:
-            //        Response.ContentType = "image/gif";
-            //        break;
-            //    case ImageFormat.PNG:
-            //        Response.ContentType = "image/png";
-            //        break;
-            //    case ImageFormat.JPEG:
-            //    case ImageFormat.Unknown:
-            //    default:
-            //        Response.ContentType = "image/jpeg";
-            //        break;
-            //}
+            string contentType;
+            switch (imageWithMetadata.Filetype)
+            {
+                case ImageFormat.GIF:
+                    contentType = "image/gif";
+                    break;
+                case ImageFormat.PNG:
+                    contentType = "image/png";
+                    break;
+                case ImageFormat.JPEG:
+                case ImageFormat.Unknown:
+                default:
+                    contentType = "image/jpeg";
+                    break;
+            }
 
 
-            //string body = "Hello world!";
-            //Response.Body = new MemoryStream();
-            //using (var writer = new StreamWriter(Response.Body))
-            //{
-            //    writer.Write(body);
-            //}
-            //Response.Body.Close();
-            //Response.ContentLength = body.Length;
-            //Response.ContentType = "text";
-
-            var result = new FileContentResult(image.Content, "image/jpeg");
+            var result = new FileContentResult(image.Content, contentType);
             return result;
         }
     }

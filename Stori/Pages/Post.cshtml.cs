@@ -37,7 +37,7 @@ namespace Stori.Pages
             Post post = new Post();
             post.Text = Request.Form["postText"];
             post.Title = Request.Form["title"];
-            post.Tags = Request.Form["tags"].ToString().Split(',').Select(s => s.Trim()).ToArray();
+            post.Tags = Request.Form["tags"].ToString().Split(',').Select(s => s.Trim().ToLowerInvariant()).ToArray();
             post.CreateDate = DateTime.Now;
             post.Author = new ObjectModel.User(username);
 
@@ -46,6 +46,19 @@ namespace Stori.Pages
                 ImageWithMetadata captionedImage = new ImageWithMetadata();
                 captionedImage.Caption = "testCaption";
                 captionedImage.UploadDate = DateTime.Now;
+                if (file.FileName.EndsWith(".png"))
+                {
+                    captionedImage.Filetype = ImageFormat.PNG;
+                }
+                else if (file.FileName.EndsWith(".gif"))
+                {
+                    captionedImage.Filetype = ImageFormat.GIF;
+                }
+                else
+                {
+                    captionedImage.Filetype = ImageFormat.JPEG;
+                }
+
                 var image = System.Drawing.Image.FromStream(file.OpenReadStream());
                 using (MemoryStream mStream = new MemoryStream())
                 {
