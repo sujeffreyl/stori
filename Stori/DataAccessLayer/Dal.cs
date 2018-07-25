@@ -18,12 +18,7 @@ namespace Stori.DataAccessLayer
         //private MongoServer mongoServer = null;
         private bool disposed = false;
 
-        // To do: update the connection string with the DNS name
-        // or IP address of your server. 
-        //For example, "mongodb://testlinux.cloudapp.net
-        private string userName = "stori";
-        private string host = "stori.documents.azure.com";
-        private string password = "FILLMEIN";
+        private Secrets secrets;
 
         // This sample uses a database named "Tasks" and a 
         //collection named "TasksList".  The database and collection 
@@ -43,6 +38,7 @@ namespace Stori.DataAccessLayer
         // Default constructor.        
         private Dal()
         {
+            secrets = new Secrets();
         }
 
         ~Dal()
@@ -109,6 +105,33 @@ namespace Stori.DataAccessLayer
         //    return id;
         //}
 
+
+        public static async Task<T> LookupById<T>(string collectionName, string id) where T : IMongoIdentifiable
+        {
+            return await LookupById<T>(collectionName, ObjectId.Parse(id));
+        }
+
+        public static async Task<T> LookupById<T>(string collectionName, MongoDB.Bson.ObjectId idToLookup) where T : IMongoIdentifiable
+        {
+            var collection = LookupCollectionFromDb<T>(collectionName);
+            var cursor = await collection.FindAsync<T>(x => x._id == idToLookup);
+
+            if (cursor == null)
+                return default(T);
+
+            T match = cursor.First();
+            return match;
+        }
+
+        private static MongoDB.Driver.IMongoCollection<T> LookupCollectionFromDb<T>(string collectionName)
+        {
+            var dal = Stori.DataAccessLayer.Dal.Instance;
+            var db = dal.GetMongoDb();
+            var collection = db.GetCollection<T>(collectionName);
+
+            return collection;
+        }
+
         private IMongoCollection<Post> GetPostsCollection()
         {
             var database = GetMongoDb();
@@ -120,13 +143,13 @@ namespace Stori.DataAccessLayer
         private IMongoCollection<Post> GetPostsCollectionForEdit()
         {
             MongoClientSettings settings = new MongoClientSettings();
-            settings.Server = new MongoServerAddress(host, 10255);
+            settings.Server = new MongoServerAddress(this.secrets.Host, 10255);
             settings.UseSsl = true;
             settings.SslSettings = new SslSettings();
             settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
 
-            MongoIdentity identity = new MongoInternalIdentity(dbName, userName);
-            MongoIdentityEvidence evidence = new PasswordEvidence(password);
+            MongoIdentity identity = new MongoInternalIdentity(dbName, this.secrets.UserName);
+            MongoIdentityEvidence evidence = new PasswordEvidence(this.secrets.Password);
 
             settings.Credential = new MongoCredential("SCRAM-SHA-1", identity, evidence);
 
@@ -139,13 +162,13 @@ namespace Stori.DataAccessLayer
         private MongoClient GetMongoClient()
         {
             MongoClientSettings settings = new MongoClientSettings();
-            settings.Server = new MongoServerAddress(host, 10255);
+            settings.Server = new MongoServerAddress(this.secrets.Host, 10255);
             settings.UseSsl = true;
             settings.SslSettings = new SslSettings();
             settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
 
-            MongoIdentity identity = new MongoInternalIdentity(dbName, userName);
-            MongoIdentityEvidence evidence = new PasswordEvidence(password);
+            MongoIdentity identity = new MongoInternalIdentity(dbName, this.secrets.UserName);
+            MongoIdentityEvidence evidence = new PasswordEvidence(this.secrets.Password);
 
             settings.Credential = new MongoCredential("SCRAM-SHA-1", identity, evidence);
 

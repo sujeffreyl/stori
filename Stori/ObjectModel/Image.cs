@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Stori.ObjectModel
 {
     // This class should be as simple as possible so that we can fit as many bytes into the 16 MB limit
-    public class Image
+    public class Image : IMongoIdentifiable
     {
-        public MongoDB.Bson.ObjectId _id;
+        public MongoDB.Bson.ObjectId _id { get; set; }
 
         public byte[] Content { get; set; }
 

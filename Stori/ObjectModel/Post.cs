@@ -16,5 +16,9 @@ namespace Stori.ObjectModel
         public User Author { get; set; }
 
         public ImageWithMetadata[] CaptionedImages { get; set; }
+
+        public string Category { get; set; }
+
+        public string[] Tags { get; set; }
     }
 }
