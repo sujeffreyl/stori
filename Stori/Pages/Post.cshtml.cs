@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,10 @@ namespace Stori.Pages
             }
 
 
-            string username = "testaccount2";
+            // TODO: Get the username for real.
+            string username = Request.Form["usernameTemp"];
+            if (String.IsNullOrEmpty(username))
+                username = "testaccount2";
 
             Post post = new Post();
             post.Text = Request.Form["postText"];
@@ -41,15 +45,17 @@ namespace Stori.Pages
                 ImageWithMetadata captionedImage = new ImageWithMetadata();
                 captionedImage.Caption = "testCaption";
                 captionedImage.UploadDate = DateTime.Now;
-                using (var reader = new StreamReader(file.OpenReadStream()))
+                var image = System.Drawing.Image.FromStream(file.OpenReadStream());
+                using (MemoryStream mStream = new MemoryStream())
                 {
-                    // TODO: Maybe we should read block by block later
-                    string content = await reader.ReadToEndAsync();
-                    byte[] bytes = Encoding.ASCII.GetBytes(content);
-                    var image = new Image(bytes);
-                    await image.SaveChangesAsync();
-                    captionedImage.ImageId = image._id;
+                    image.Save(mStream, image.RawFormat);
+                    byte[] bytes = mStream.ToArray();
+
+                    var imageInDb = new Stori.ObjectModel.Image(bytes);
+                    await imageInDb.SaveChangesAsync();
+                    captionedImage.ImageId = imageInDb._id;
                 }
+
                 await captionedImage.SaveChangesAsync();
 
                 post.CaptionedImages = new ImageWithMetadata[] { captionedImage };  // TODO: Alternatively, just store the identifiers

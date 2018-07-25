@@ -2,7 +2,7 @@
 @{
     var duration = DateTime.Now - Model.CreateDate;
     var postTime = duration.TotalDays < 1 ? "1 day ago" :
-                     duration.TotalDays < 7 ? duration.TotalDays + " days ago" :
+                     duration.TotalDays < 7 ? (int)Math.Round(duration.TotalDays) + " days ago" :   // TODO: Does 25 hours ago count as 1 day ago or 2 days ago? Or should it just be done by calendar dates not hours?
                      Model.CreateDate.ToString("MM/dd/yy");
 }
 
@@ -19,10 +19,18 @@
     <div class="car_content">
         <div class="text">@Model.Text</div>
         <div class="carousel">
-            <div class="image"></div>
-            <div class="image"></div>
-            <div class="image"></div>
-            <div class="image"></div>
+            @if (Model.CaptionedImages != null)
+            {
+                @foreach(var captionedImage in Model.CaptionedImages)
+                {
+                    <div class="image"><img src="/Images/@captionedImage._id" /></div>
+                    <!--
+                    <div class="image"></div>
+                    <div class="image"></div>
+                    <div class="image"></div>
+                    -->
+                }
+            }
         </div>
     </div>
 </div>
