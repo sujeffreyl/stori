@@ -46,6 +46,19 @@ namespace Stori.Pages
                 ImageWithMetadata captionedImage = new ImageWithMetadata();
                 captionedImage.Caption = "testCaption";
                 captionedImage.UploadDate = DateTime.Now;
+                if (file.FileName.EndsWith(".png"))
+                {
+                    captionedImage.Filetype = ImageFormat.PNG;
+                }
+                else if (file.FileName.EndsWith(".gif"))
+                {
+                    captionedImage.Filetype = ImageFormat.GIF;
+                }
+                else
+                {
+                    captionedImage.Filetype = ImageFormat.JPEG;
+                }
+
                 var image = System.Drawing.Image.FromStream(file.OpenReadStream());
                 using (MemoryStream mStream = new MemoryStream())
                 {

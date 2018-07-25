@@ -16,6 +16,7 @@ namespace Stori.ObjectModel
         public MongoDB.Bson.ObjectId ImageId { get; set; }
 
         public string Caption { get; set; }
+
         public DateTime UploadDate { get; set; }
 
         public ImageFormat Filetype { get; set; }
@@ -27,17 +28,11 @@ namespace Stori.ObjectModel
         {
             return _id;
         }
-
-        // note: the id is the id of ImageWithMetadata, not the id of the image inside of it
-        public static async Task<ImageWithMetadata> LookupById(string id)
+        
+        internal static string GetMongoDbCollectionName()
         {
-            var collection = LookupCollectionFromDb();
-            var cursor = await collection.FindAsync<ImageWithMetadata>(x => x._id == ObjectId.Parse(id));
-
-            ImageWithMetadata match = cursor?.First();
-            return match;
+            return "ImageWithMetadataList";
         }
-
 
         public async Task SaveChangesAsync()
         {
@@ -45,15 +40,6 @@ namespace Stori.ObjectModel
             var db = dal.GetMongoDb();
             var collection = db.GetCollection<ImageWithMetadata>("ImageWithMetadataList");
             await collection.InsertOneAsync(this);
-        }
-
-        private static MongoDB.Driver.IMongoCollection<ImageWithMetadata> LookupCollectionFromDb()
-        {
-            var dal = Stori.DataAccessLayer.Dal.Instance;
-            var db = dal.GetMongoDb();
-            var collection = db.GetCollection<ImageWithMetadata>("ImageWithMetadataList");
-
-            return collection;
         }
     }
 }
