@@ -1,0 +1,36 @@
+.content {
+    background: #4e54c8; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#login {
+    position: relative;
+    top: 25%;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+input[type=text] {
+    padding: 12px 14px;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: calc(100% - 60px);
+    margin: 8px;
+}
+
+::placeholder { 
+    color: white;
+    opacity: 1; /* Firefox */
+    text-transform: uppercase;
+}
+
+.button {
+    padding: 10px 40px;
+    margin-top: 80px;
+    border-radius: 35px;
+    background-color: #fff;
+    color: #8f94fb;
+    box-shadow: 0 30px 25px 1px rgba(0,0,0,.1), 0 1px 2px 1px rgba(0,0,0,.2)
+}

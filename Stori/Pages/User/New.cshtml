@@ -4,10 +4,14 @@
     ViewData["Title"] = "New";
 }
 
-<h2>New</h2>
+<link rel="stylesheet" href="~/css/new.css" />
 
-<form method="post">
-    <div>Username</div><input id="usernameInput" type="text" name="username" /> <br />
-    <input type="submit" value="Submit">
-</form>
+<div id="login">
+    <div class="title">Sign In</div>
 
+    <form method="post">
+        <input id="usernameInput" type="text" name="username" placeholder="User name" /> <br />
+        <input id="passwordInput" type="text" name="password" placeholder="Password" /> <br />
+        <input type="submit" value="Sign in" class="button title">
+    </form>
+</div>

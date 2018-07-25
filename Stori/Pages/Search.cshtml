@@ -1,13 +1,15 @@
 ﻿@page
-@model IndexModel
-@using Stori.Views.Shared
+@model SearchModel
+@using Stori.ObjectModel
 @{
     ViewData["Title"] = "Search";
+    ViewData["CurrentUser"] = "fake";
 }
 
 <link rel="stylesheet" href="~/css/search.css" />
 <link rel="stylesheet" href="~/css/carousel.css" />
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/search.js"></script>
 
 <input id="searchbox" class="card" type="text" placeholder="Search for posts">
 <div id="entity" class="card">
@@ -18,8 +20,8 @@
 </div>
 
 <div id="results">
-    @Html.Partial("Carousel", new CarouselModel())
-
-    @* mock data, remove later *@
-    @Html.Partial("Carousel", new CarouselModel())
+    @foreach (Stori.ObjectModel.Post result in Model.Results)
+    {
+        @Html.Partial("Carousel", result)
+    }
 </div>

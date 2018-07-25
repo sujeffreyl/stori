@@ -9,7 +9,10 @@
 <div class="card">
     <div class="car_header">
         <div class="icon"></div>
+        @if (!string.Equals(ViewData["CurrentUser"].ToString(), Model.Author.UserName, StringComparison.OrdinalIgnoreCase))
+        {
         <div class="follow button">Follow</div>
+        }
         <div class="author">@Model.Author.UserName</div>
         <div class="time">@postTime</div>
     </div>
