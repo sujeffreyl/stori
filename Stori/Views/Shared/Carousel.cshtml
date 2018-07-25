@@ -1,15 +1,20 @@
-﻿@page
-@model Stori.Views.Shared.CarouselModel
+﻿@model Stori.ObjectModel.Post
+@{
+    var duration = DateTime.Now - Model.CreateDate;
+    var postTime = duration.TotalDays < 1 ? "1 day ago" :
+                     duration.TotalDays < 7 ? duration.TotalDays + " days ago" :
+                     Model.CreateDate.ToString("MM/dd/yy");
+}
 
 <div class="card">
     <div class="car_header">
         <div class="icon"></div>
         <div class="follow button">Follow</div>
-        <div class="author">Nulla ultricies viverra</div>
-        <div class="time">1 day ago</div>
+        <div class="author">@Model.Author.UserName</div>
+        <div class="time">@postTime</div>
     </div>
     <div class="car_content">
-        <div class="text">Nam mattis nec quam et dictum. Etiam eu euismod nunc. Nunc pretium commodo ipsum ac rutrum.</div>
+        <div class="text">@Model.Text</div>
         <div class="carousel">
             <div class="image"></div>
             <div class="image"></div>

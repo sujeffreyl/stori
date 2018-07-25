@@ -1,14 +1,27 @@
 ﻿@page "{username}"
 @model Stori.Pages.User.ViewModel
+@using Stori.Views.Shared
 @{
     ViewData["Title"] = "View";
+
 }
 
-<h2>@RouteData.Values["username"]'s Stories</h2>
+<link rel="stylesheet" href="~/css/profile.css" />
+<link rel="stylesheet" href="~/css/carousel.css" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
 
-@foreach (Stori.ObjectModel.Post post in Model.Posts)
-{
-    <h3>@post.Title</h3>
-    <p>@post.CreateDate.ToString("MM/dd/yy")</p>
-    <p>@post.Text</p>
-}
+<div id="banner" class="image"><img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=07df4ad552d3627b7cbc7836321d9a03&auto=format&fit=crop&w=1350&q=80" /></div>
+<div id="user_info" class="card">
+    <div class="icon image"><img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3ccc1801fd91dc9cf869fa6a09360c09&auto=format&fit=crop&w=1000&q=80"></div>
+    <div class="name">@RouteData.Values["username"]</div>
+    <div class="occupation">Adventurer / Photographer</div>
+    <div class="description">Loves travelling and good food</div>
+</div>
+
+<div id="user_content">
+    <div id="user_seemore" class="card">All @(Model.Posts.Count) posts</div>
+    @foreach (Stori.ObjectModel.Post post in Model.Posts)
+    {
+        @Html.Partial("Carousel", post)
+    }
+</div>
