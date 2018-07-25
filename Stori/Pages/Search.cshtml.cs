@@ -21,7 +21,7 @@ namespace Stori.Pages
 
         public void OnGet()
         {
-            this.Results = db.GetPostsByUsername(HttpContext.Request.Query["q"].ToString());
+            this.Results = db.GetPostsByTag(HttpContext.Request.Query["q"].ToString());
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿@model Stori.ObjectModel.Post
 @{
-    var duration = DateTime.Now - Model.CreateDate;
-    var postTime = duration.TotalDays < 1 ? "1 day ago" :
-                     duration.TotalDays < 7 ? (int)Math.Round(duration.TotalDays) + " days ago" :   // TODO: Does 25 hours ago count as 1 day ago or 2 days ago? Or should it just be done by calendar dates not hours?
+    var duration = Math.Round((DateTime.Now - Model.CreateDate).TotalDays);
+    var postTime = duration < 2 ? "1 day ago" :
+                     duration < 7 ? duration + " days ago" :
                      Model.CreateDate.ToString("MM/dd/yy");
 }
 

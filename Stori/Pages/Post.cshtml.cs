@@ -37,6 +37,7 @@ namespace Stori.Pages
             Post post = new Post();
             post.Text = Request.Form["postText"];
             post.Title = Request.Form["title"];
+            post.Tags = Request.Form["tags"].ToString().Split(',').Select(s => s.Trim()).ToArray();
             post.CreateDate = DateTime.Now;
             post.Author = new ObjectModel.User(username);
 

@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = "Search";
     ViewData["CurrentUser"] = "fake";
+
+    string query = HttpContext.Request.Query["q"];
 }
 
 <link rel="stylesheet" href="~/css/search.css" />
@@ -11,7 +13,10 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/js/search.js"></script>
 
-<input id="searchbox" class="card" type="text" placeholder="Search for posts">
+<div id="searchbox" class="card">
+    <input type="text" placeholder="@(!string.IsNullOrEmpty(query) ? query : "Search for posts")">
+    <div class="icon"></div>
+</div>
 <div id="entity" class="card">
     <div class="ent_title">Bing</div>
     <div class="ent_content">

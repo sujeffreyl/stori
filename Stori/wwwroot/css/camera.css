@@ -1,4 +1,4 @@
-#canvas {
+﻿#canvas {
   display:none;
 }
 
@@ -31,10 +31,11 @@
     height: 25px;
     width: 25px;
     z-index: 10;
+    line-height: 25px;
 }
 #close:before {
     font-size: 25px;
-    content: "X";
+    content: "✕";
 }
 
 #tags {

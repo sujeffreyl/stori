@@ -65,7 +65,20 @@ namespace Stori.DataAccessLayer
             try
             {
                 var collection = GetPostsCollection();
-                return collection.Find(x => x.Author.UserName == username).ToList();
+                return collection.Find(x => x.Author.UserName == username).Sort(Builders<Post>.Sort.Descending("CreateDate")).ToList();
+            }
+            catch (MongoConnectionException)
+            {
+                return new List<Post>();
+            }
+        }
+
+        public List<Post> GetPostsByTag(string tag)
+        {
+            try
+            {
+                var collection = GetPostsCollection();
+                return collection.Find(x => x.Tags.Contains<string>(tag)).Sort(Builders<Post>.Sort.Descending("CreateDate")).ToList();
             }
             catch (MongoConnectionException)
             {

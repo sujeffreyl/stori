@@ -2,7 +2,7 @@
   var sb = null;
 
   function init() {
-    sb = document.getElementById('searchbox');
+    sb = document.querySelector('#searchbox > input');
 
     sb.addEventListener('keypress', function(evt){
         if (evt.which == 13 || evt.keyCode == 13) {
