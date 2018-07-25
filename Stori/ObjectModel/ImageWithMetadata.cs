@@ -15,7 +15,12 @@ namespace Stori.ObjectModel
 
         public MongoDB.Bson.ObjectId ImageId { get; set; }
 
+        public int Height { get; set; }
+
+        public int Width { get; set; }
+
         public string Caption { get; set; }
+
         public DateTime UploadDate { get; set; }
 
         public ImageFormat Filetype { get; set; }

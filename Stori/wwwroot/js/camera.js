@@ -98,7 +98,7 @@
 
             if (!displayName.startsWith('##')) {
                 var img = "https://www.bing.com/th?q=" + displayName + "&dc=1&w=100&h=100&c=1&dpr=2&mkt=en-US&adlt=moderate&t=1";
-                $('#tags').append("<div class='image'><img src='" + img + "'></div>");
+                $('#tags').append("<a class='image' href='/search?q=" + displayName + "'><img src='" + img + "'></a>");
             }
         }
         return tagString;
@@ -113,9 +113,10 @@
     
       var data = canvas.toDataURL("image/jpeg");
       photo.setAttribute('src', data);
-      $('.output').first().css('display', 'block');
       data = data.substr(data.indexOf(',')+1)
     }
+
+    $('.output').first().css('display', 'block');
 
     var request = new XMLHttpRequest();
     request.open('POST', path, true);

@@ -55,6 +55,9 @@ namespace Stori.Pages
                     var imageInDb = new Stori.ObjectModel.Image(bytes);
                     await imageInDb.SaveChangesAsync();
                     captionedImage.ImageId = imageInDb._id;
+
+                    captionedImage.Width = image.Width;
+                    captionedImage.Height = image.Height;
                 }
 
                 await captionedImage.SaveChangesAsync();

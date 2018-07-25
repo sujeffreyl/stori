@@ -14,7 +14,7 @@
 <script src="~/js/search.js"></script>
 
 <div id="searchbox" class="card">
-    <input type="text" placeholder="@(!string.IsNullOrEmpty(query) ? query : "Search for posts")">
+    <input type="text" placeholder="Search for posts" value="@(!string.IsNullOrEmpty(query) ? query : "")">
     <div class="icon"></div>
 </div>
 <div id="entity" class="card">

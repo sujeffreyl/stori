@@ -19,18 +19,22 @@
     <div class="car_content">
         <div class="text">@Model.Text</div>
         <div class="carousel">
-            @if (Model.CaptionedImages != null)
-            {
-                @foreach(var captionedImage in Model.CaptionedImages)
+            <div class="carousel_inner">
+                @if (Model.CaptionedImages != null)
                 {
-                    <div class="image"><img src="/Images/@captionedImage._id" /></div>
-                    <!--
-                    <div class="image"></div>
-                    <div class="image"></div>
-                    <div class="image"></div>
-                    -->
+                    @foreach (var captionedImage in Model.CaptionedImages)
+                    {
+                        <div class="image @(captionedImage.Width > captionedImage.Height ? "horiz" : "")"><img src="/Images/@captionedImage._id" /></div>
+
+                        <!--
+                        <div class="image"></div>
+                        <div class="image"></div>
+                        <div class="image"></div>
+                        -->
+
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
 </div>
