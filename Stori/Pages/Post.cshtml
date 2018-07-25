@@ -6,8 +6,16 @@
 
 <h2>New Storie</h2>
 
-<form asp-page-handler="Add" method="post">
+<form asp-page-handler="Add" method="post" enctype="multipart/form-data">
     <div>Title: </div><input id="title" class="card" type="text" name="title" /> <br />
     <div>Text: </div><input id="postText" class="card" type="text" name="postText" /> <br />
     <input type="submit" value="Submit">
+</form>
+
+<form asp-page-handler="Upload"method="post" enctype="multipart/form-data">
+
+    <label for="file">Filename:</label>
+    <input type="file" name="file" id="file" />
+
+    <input type="submit" />
 </form>

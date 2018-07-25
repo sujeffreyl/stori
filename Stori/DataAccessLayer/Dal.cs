@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Stori.ObjectModel;
@@ -89,11 +91,28 @@ namespace Stori.DataAccessLayer
             }
         }
 
+        // TODO: Actually, after waiting a while and refreshing, maybe it does?!?!?!
+        // note: I don't think AzureCosmosDB actually supports Grid FS :( :( :(
+        // Just store it in BSON for now
+        /// <summary>
+        /// Upload a file (probably a large binary file that could feasibly exceed 16 MB) to Mongo's Grid FileSystem
+        /// </summary>
+        /// <param name="stream">Stream representing the file to be uploaded</param>
+        /// <param name="filename">The destination filename of the new file to be created in GridFS</param>
+        /// <returns>A task with the ID of the newly created file.</returns>
+        //public async Task<MongoDB.Bson.ObjectId> Upload(Stream stream, string filename)
+        //{
+        //    var database = GetMongoDb();
+        //    var gridFileSystemBucket = new MongoDB.Driver.GridFS.GridFSBucket(database);
+
+        //    var id = await gridFileSystemBucket.UploadFromStreamAsync(filename, stream);
+        //    return id;
+        //}
+
         private IMongoCollection<Post> GetPostsCollection()
         {
-            var client = GetMongoClient();
+            var database = GetMongoDb();
 
-            var database = client.GetDatabase(dbName);
             var postCollection = database.GetCollection<Post>(collectionName);
             return postCollection;
         }
@@ -116,7 +135,7 @@ namespace Stori.DataAccessLayer
             var todoPostCollection = database.GetCollection<Post>(collectionName);
             return todoPostCollection;
         }
-
+        
         private MongoClient GetMongoClient()
         {
             MongoClientSettings settings = new MongoClientSettings();
@@ -133,6 +152,17 @@ namespace Stori.DataAccessLayer
             MongoClient client = new MongoClient(settings);
 
             return client;
+        }
+
+        public IMongoDatabase GetMongoDb()
+        {
+            return GetMongoDb(this.dbName);
+        }
+
+        private IMongoDatabase GetMongoDb(string databaseName)
+        {
+            var client = GetMongoClient();
+            return client.GetDatabase(databaseName);
         }
 
         # region IDisposable
