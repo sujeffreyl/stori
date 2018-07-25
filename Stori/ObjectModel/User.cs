@@ -7,7 +7,19 @@ namespace Stori.ObjectModel
 {
     public class User
     {
-        public string UserName;
+        public MongoDB.Bson.ObjectId _id;
+
+        public string UserName { get; set; }
+
+        public string ProfilePictureUrl { get; set; }
+
+        public string BannerImageUrl { get; set; }
+
+        public string Occupation { get; set; }
+
+        public string Interests { get; set; }
+
+        public string Location { get; set; }
 
         public User(string username)
         {
