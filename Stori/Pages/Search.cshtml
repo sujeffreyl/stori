@@ -17,29 +17,39 @@
     <input type="text" placeholder="Search for posts" value="@(!string.IsNullOrEmpty(query) ? query : "")">
     <div class="icon"></div>
 </div>
-<div id="entity" class="card">
-    <div class="car_header">
-        <div class="icon image">
-            <img src="https://www.bing.com/th?q=Nutella&dc=1&w=100&h=100" />
+@if (string.Equals(query, "nutella", StringComparison.OrdinalIgnoreCase))
+{
+    <div id="entity" class="card">
+        <div class="car_header">
+            <div class="icon image">
+                <img src="https://www.bing.com/th?q=Nutella&dc=1&w=100&h=100" />
+            </div>
+            <div class="author">Did you know?</div>
+            <div class="ent_bing">
+                <div class="ent_icon"><img src="https://www.notebookcheck.net/fileadmin/Notebooks/News/_nc3/20170820_bing_logo_2.jpg"></div>
+                <div class="ent_title">Bing</div>
+            </div>
         </div>
-        <div class="author">Did you know?</div>
-        <div class="ent_bing">
-            <div class="ent_icon"><img src="https://www.notebookcheck.net/fileadmin/Notebooks/News/_nc3/20170820_bing_logo_2.jpg"></div>
-            <div class="ent_title">Bing</div>
+        <div class="ent_content">
+            Nutella is a brand of sweetened hazelnut cocoa spread manufactured by the Italian company Ferrero that was first introduced in 1965, although its first iteration dates to 1963.
+            <ul>
+                <li><span>Main ingredients:</span> Sugar, palm oil, hazlenuts, cocoa</li>
+                <li><span>Place of origin:</span> Italy</li>
+            </ul>
         </div>
     </div>
-    <div class="ent_content">
-        Nutella is a brand of sweetened hazelnut cocoa spread manufactured by the Italian company Ferrero that was first introduced in 1965, although its first iteration dates to 1963.
-        <ul>
-            <li><span>Main ingredients:</span> Sugar, palm oil, hazlenuts, cocoa</li>
-            <li><span>Place of origin:</span> Italy</li>
-        </ul>
-    </div>
-</div>
+}
 
 <div id="results">
-    @foreach (Stori.ObjectModel.Post result in Model.Results)
-    {
-        @Html.Partial("Carousel", result)
+    @if (Model.Results.Count > 0) {
+        @foreach (Stori.ObjectModel.Post result in Model.Results)
+        {
+            @Html.Partial("Carousel", result)
+        }
+    }
+    else
+    {   <div class="card">
+        <div class="car_content">No search results.</div>
+    </div>
     }
 </div>
