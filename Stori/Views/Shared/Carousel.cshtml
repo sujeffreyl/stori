@@ -42,7 +42,7 @@
         <div class="follow button">Follow</div>
         }
         <div class="author">@Model.Author.UserName</div>
-        <div class="time">@postTime</div>
+        <div class="time">@Html.Partial("FormattedDate", Model.CreateDate)</div>
     </a>
     <div class="car_content">
         <div class="text">@Model.Text</div>

@@ -2,6 +2,10 @@
     margin-bottom: 10px;
 }
 
+.car_header div {
+    color: #666;
+}
+
 .car_header .icon {
     float: left;
     height: 40px;
@@ -34,6 +38,10 @@
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+.car_content .text {
+    padding-top: 10px;
 }
 
 .car_content .image {

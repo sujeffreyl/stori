@@ -1,0 +1,35 @@
+﻿@model DateTime
+@{
+    string postTime;
+    var duration = (DateTime.UtcNow - Model);    // FYI, Model.CreateDate is apparently in UTC, for some reason
+    if (duration.TotalMinutes < 2)
+    {
+        postTime = "Just now";
+    }
+    else if (duration.TotalMinutes < 60)
+    {
+        postTime = $"{(int)duration.TotalMinutes} minutes ago";
+    }
+    else if (duration.TotalHours < 2)
+    {
+        postTime = "1 hour ago";
+    }
+    else if (duration.TotalHours < 24)
+    {
+        postTime = $"{(int)duration.TotalHours} hours ago";
+    }
+    else if (duration.TotalDays < 2)
+    {
+        postTime = "1 day ago";
+    }
+    else if (duration.TotalDays < 7)
+    { 
+        postTime = $"{(int)duration.TotalDays} days ago";
+    }
+    else
+    {
+        postTime = Model.ToString("MM/dd/yy");
+    }
+}
+
+@postTime

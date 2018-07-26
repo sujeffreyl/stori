@@ -1,5 +1,5 @@
 (function() {
-  var appid = "D41D8CD98F00B204E9800998ECF8427E1510C791";
+  var appid = "TODO";
   var path = "https://www.bingapis.com/api/v7/images/visualsearch?appId=" + appid;
     
   var width = 0;    // We will scale the photo width to this

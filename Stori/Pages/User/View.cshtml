@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "View";
     ViewData["CurrentUser"] = RouteData.Values["username"];
-
 }
 
 <link rel="stylesheet" href="~/css/profile.css" />
@@ -15,7 +14,7 @@
 <div id="user_info" class="card">
     <div class="icon image"><img src="@Model.User.ProfilePictureUrl"></div>
     <div class="name">@RouteData.Values["username"]</div>
-    <div class="occupation">Adventurer / Photographer</div>
+    <div class="location">Adventurer / Photographer</div>
     <div class="description">Loves travelling and good food</div>
 </div>
 

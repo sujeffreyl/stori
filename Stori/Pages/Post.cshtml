@@ -10,11 +10,11 @@
 <link rel="stylesheet" href="~/css/carousel.css" />
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
-<div id="banner" class="image"><img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=07df4ad552d3627b7cbc7836321d9a03&auto=format&fit=crop&w=1350&q=80" /></div>
+<div id="banner" class="image"><img src="@Model.Post.Author.BannerImageUrl" /></div>
 <a id="user_info" class="card" href="@("/user/view/" + Model.Post.Author.UserName)">
-    <div class="icon image"><img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3ccc1801fd91dc9cf869fa6a09360c09&auto=format&fit=crop&w=1000&q=80"></div>
-    <div class="name">Nulla Ultricies</div>
-    <div class="description">Loves travelling and good food</div>
+    <div class="icon image"><img src="@(Model.Post.Author.ProfilePictureUrl)" /></div>
+    <div class="name">@Model.Post.Author.UserName</div>
+    <div class="description">@Html.Partial("FormattedDate", Model.Post.CreateDate)</div>
 </a>
 
 <div id="post_content">
